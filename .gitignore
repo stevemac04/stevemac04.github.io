@@ -1,0 +1,4 @@
+﻿# OS junk only — keep full site tracked
+.DS_Store
+Thumbs.db
+Desktop.ini

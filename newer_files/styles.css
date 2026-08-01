@@ -1,0 +1,302 @@
+:root {
+  --ink: #1c1c1e;
+  --ink-soft: #5c5c62;
+  --paper: #f4f2f3;
+  --crimson: #9b1c2e;
+  --crimson-deep: #6e1420;
+  --glow: rgba(155, 28, 46, 0.2);
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  min-height: 100svh;
+  min-height: 100dvh;
+  color: var(--ink);
+  font-family: "Outfit", sans-serif;
+  display: grid;
+  place-items: center;
+  padding:
+    max(1.25rem, var(--safe-top))
+    max(1.25rem, var(--safe-right))
+    max(1.5rem, var(--safe-bottom))
+    max(1.25rem, var(--safe-left));
+  overflow-x: hidden;
+  background: var(--paper);
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.atmosphere {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  /* Drop your photo at: images/background.jpg */
+  background-color: #e6e4e5;
+  background-image:
+    radial-gradient(ellipse 85% 55% at 12% 8%, rgba(155, 28, 46, 0.28), transparent 58%),
+    radial-gradient(ellipse 70% 50% at 92% 18%, rgba(90, 90, 96, 0.22), transparent 55%),
+    radial-gradient(ellipse 90% 65% at 50% 100%, rgba(255, 255, 255, 0.92), transparent 58%),
+    linear-gradient(165deg, #f7f5f6 0%, #d8d5d7 48%, #b8b4b7 100%),
+    url("../images/background.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  animation: atmosphere-drift 14s ease-in-out infinite alternate;
+}
+
+.atmosphere::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.45'/%3E%3C/svg%3E");
+  opacity: 0.05;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+}
+
+.card {
+  width: min(100%, 22.5rem);
+  text-align: center;
+  animation: rise 0.9s var(--ease) both;
+  overflow: visible;
+}
+
+.brand {
+  margin: 0 0 0.7rem;
+  font-family: "Fraunces", serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-size: clamp(2.35rem, 11vw, 3rem);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  animation: rise 0.9s var(--ease) 0.05s both;
+}
+
+.headline {
+  margin: 0 0 1.15rem;
+  font-family: "Outfit", sans-serif;
+  font-weight: 500;
+  font-size: 0.98rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--crimson-deep);
+  animation: rise 0.9s var(--ease) 0.12s both;
+}
+
+.about-wrap {
+  position: relative;
+  margin-bottom: 0.85rem;
+  animation: rise 0.9s var(--ease) 0.18s both;
+  overflow: visible;
+  isolation: isolate;
+}
+
+.baseball {
+  position: absolute;
+  width: 1.35rem;
+  height: 1.35rem;
+  left: -1.35rem;
+  top: 50%;
+  margin-top: -0.675rem;
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.28));
+  z-index: 3;
+  animation: homerun-arc 2.1s cubic-bezier(0.33, 0.1, 0.25, 1) 0.55s 1 forwards;
+  will-change: transform, z-index;
+  pointer-events: none;
+}
+
+.about-cta {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 4.25rem;
+  padding: 0.95rem 1rem;
+  text-decoration: none;
+  color: #fff;
+  background: var(--crimson);
+  border: 1px solid var(--crimson-deep);
+  border-radius: 0.35rem;
+  transition:
+    transform 0.28s var(--ease),
+    background 0.28s var(--ease);
+}
+
+.about-cta:active,
+.about-cta:focus-visible {
+  transform: scale(0.97);
+  background: var(--crimson-deep);
+  outline: none;
+}
+
+.about-cta:focus-visible {
+  box-shadow: 0 0 0 3px var(--glow);
+}
+
+.about-cta-label {
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Clears the wall, then drops behind it on the way down */
+@keyframes homerun-arc {
+  0% {
+    opacity: 0;
+    z-index: 3;
+    transform: translate(0, 0.55rem) rotate(0deg) scale(0.9);
+  }
+  6% {
+    opacity: 1;
+    z-index: 3;
+  }
+  42% {
+    opacity: 1;
+    z-index: 3;
+    transform: translate(10.5rem, -2.85rem) rotate(200deg) scale(1);
+  }
+  55% {
+    opacity: 1;
+    z-index: 3;
+    transform: translate(14.5rem, -2.95rem) rotate(270deg) scale(1);
+  }
+  /* Past the top of the wall — tuck behind */
+  58% {
+    opacity: 1;
+    z-index: 1;
+    transform: translate(15.5rem, -2.4rem) rotate(300deg) scale(0.98);
+  }
+  82% {
+    opacity: 1;
+    z-index: 1;
+    transform: translate(18.5rem, 0.15rem) rotate(400deg) scale(0.92);
+  }
+  100% {
+    opacity: 0;
+    z-index: 1;
+    transform: translate(19.5rem, 0.55rem) rotate(450deg) scale(0.85);
+  }
+}
+
+.links {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  animation: rise 0.9s var(--ease) 0.26s both;
+}
+
+.link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  min-height: 6.75rem;
+  padding: 1rem 0.65rem;
+  text-decoration: none;
+  color: var(--ink);
+  border: 1px solid rgba(28, 28, 30, 0.12);
+  border-radius: 0.35rem;
+  background: rgba(255, 255, 255, 0.58);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition:
+    transform 0.28s var(--ease),
+    background 0.28s var(--ease),
+    border-color 0.28s var(--ease),
+    color 0.28s var(--ease);
+}
+
+.link:active,
+.link:focus-visible {
+  transform: scale(0.97);
+  background: rgba(155, 28, 46, 0.1);
+  border-color: rgba(155, 28, 46, 0.35);
+  color: var(--crimson-deep);
+  outline: none;
+}
+
+.link:focus-visible {
+  box-shadow: 0 0 0 3px var(--glow);
+}
+
+.link-visual {
+  display: grid;
+  place-items: center;
+  width: 2.85rem;
+  height: 2.85rem;
+  color: var(--crimson);
+  transition: color 0.28s var(--ease), transform 0.28s var(--ease);
+}
+
+.link:active .link-visual,
+.link:focus-visible .link-visual {
+  color: var(--crimson-deep);
+  transform: scale(1.05);
+}
+
+.link-visual svg {
+  width: 100%;
+  height: 100%;
+}
+
+.link-label {
+  font-size: 0.86rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes atmosphere-drift {
+  from {
+    transform: scale(1) translate3d(0, 0, 0);
+  }
+  to {
+    transform: scale(1.04) translate3d(-1.5%, 1%, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .baseball {
+    display: none;
+  }
+}
